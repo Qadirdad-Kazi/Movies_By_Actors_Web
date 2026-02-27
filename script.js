@@ -34,6 +34,7 @@ let isLoadingMore = false;
 let allActorsForInfiniteScroll = [];
 let currentFeaturedIndex = 0;
 let featuredInterval;
+let galleryAutoScrollInterval;
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
@@ -1298,6 +1299,35 @@ function displayGallery(images) {
 
         container.appendChild(item);
     });
+
+    // Setup auto scroll
+    setupGalleryAutoScroll(container);
+}
+
+function setupGalleryAutoScroll(container) {
+    if (galleryAutoScrollInterval) clearInterval(galleryAutoScrollInterval);
+
+    let scrollAmount = 0;
+    const scrollStep = 1;
+    const delay = 30; // ms
+
+    galleryAutoScrollInterval = setInterval(() => {
+        if (!container) return;
+
+        container.scrollLeft += scrollStep;
+        scrollAmount += scrollStep;
+
+        // If we reached the end, reset (loop)
+        if (container.scrollLeft >= (container.scrollWidth - container.clientWidth)) {
+            container.scrollLeft = 0;
+        }
+    }, delay);
+
+    // Pause on hover/touch
+    container.onmouseover = () => clearInterval(galleryAutoScrollInterval);
+    container.onmouseout = () => setupGalleryAutoScroll(container);
+    container.ontouchstart = () => clearInterval(galleryAutoScrollInterval);
+    container.ontouchend = () => setupGalleryAutoScroll(container);
 }
 
 function openGallery(index) {
