@@ -1593,9 +1593,15 @@ async function loadIndianActors() {
         const actorPromises = indianActors.map(name =>
             fetch(`${BASE_URL}/search/person?api_key=${API_KEY}&query=${encodeURIComponent(name)}`)
                 .then(res => res.json())
-                .then(data => data.results && data.results.length > 0 ? data.results[0] : null)
+                .then(data => {
+                    if (data.error) {
+                        console.error(`Proxy Error for ${name}:`, data.error, data.details || '');
+                        return null;
+                    }
+                    return data.results && data.results.length > 0 ? data.results[0] : null;
+                })
                 .catch(err => {
-                    console.error(`Error fetching ${name}:`, err);
+                    console.error(`Network Error fetching ${name}:`, err);
                     return null;
                 })
         );
@@ -1609,11 +1615,11 @@ async function loadIndianActors() {
             displayActors(validActors, 'indian-actors');
             setupFadeInAnimations();
         } else {
-            showError('indian-actors', 'Failed to load Indian actors. Please check your API key.');
+            showError('indian-actors', 'Failed to load Indian actors. <b>Please ensure TMDB_API_KEY is set in your Netlify Environment Variables.</b>');
         }
     } catch (error) {
         console.error('Error loading Indian actors:', error);
-        showError('indian-actors', 'Failed to load Indian actors. Please check your API key.');
+        showError('indian-actors', 'Failed to load Indian actors. Please check your connection or API configuration.');
     }
 }
 
