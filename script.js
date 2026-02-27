@@ -76,6 +76,38 @@ function setupNavbarScroll() {
     });
 }
 
+// Menu Toggle for Mobile
+function toggleMenu() {
+    const navLinks = document.getElementById('nav-links');
+    const menuToggle = document.getElementById('menu-toggle');
+    const icon = menuToggle.querySelector('i');
+
+    navLinks.classList.toggle('active');
+
+    // Switch icon between bars and times
+    if (navLinks.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+    } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+    }
+}
+
+function closeMenu() {
+    const navLinks = document.getElementById('nav-links');
+    const menuToggle = document.getElementById('menu-toggle');
+    const icon = menuToggle?.querySelector('i');
+
+    if (navLinks?.classList.contains('active')) {
+        navLinks.classList.remove('active');
+        if (icon) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+        }
+    }
+}
+
 // Load Popular Actors
 async function loadPopularActors() {
     try {
@@ -476,6 +508,7 @@ function filterMovies(type) {
 
 // Show Home View
 function showHome() {
+    closeMenu();
     document.getElementById('home-view').style.display = 'block';
     document.getElementById('featured-section').style.display = 'block';
     document.getElementById('actor-detail').style.display = 'none';
@@ -489,6 +522,7 @@ function showHome() {
 
 // Search Actors (for nav link)
 function searchActors() {
+    closeMenu();
     document.getElementById('actor-search').focus();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -721,6 +755,7 @@ function updateWatchlistButton(actorId) {
 }
 
 async function showWatchlist() {
+    closeMenu();
     if (watchlist.length === 0) {
         document.getElementById('empty-watchlist').style.display = 'block';
         document.getElementById('watchlist-actors').innerHTML = '';

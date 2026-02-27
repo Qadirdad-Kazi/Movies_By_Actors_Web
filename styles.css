@@ -157,6 +157,84 @@ body {
     transform: rotate(20deg);
 }
 
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Mobile Navbar */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: rgba(20, 20, 20, 0.98);
+        backdrop-filter: blur(15px);
+        flex-direction: column;
+        justify-content: center;
+        gap: 3rem;
+        transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 1000;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-links.active {
+        right: 0;
+    }
+
+    .nav-link {
+        font-size: 1.25rem;
+    }
+
+    .nav-link.active::after {
+        bottom: -10px;
+    }
+
+    .nav-container {
+        padding: 0.8rem 1.5rem;
+    }
+
+    .logo-text {
+        font-size: 1.2rem;
+    }
+
+    .logo-icon {
+        font-size: 1.5rem;
+    }
+
+    .hero {
+        height: 60vh;
+        min-height: 400px;
+        margin-top: 60px;
+    }
+
+    .hero-title {
+        font-size: 2rem !important;
+        padding: 0 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem !important;
+        padding: 0 2rem;
+    }
+
+    .search-box {
+        width: 90% !important;
+        max-width: 400px;
+    }
+}
+
 /* Hero Section */
 .hero {
     position: relative;
