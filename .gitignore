@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build directory
+dist/
+build/
+.netlify/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test scripts
+test_news.js

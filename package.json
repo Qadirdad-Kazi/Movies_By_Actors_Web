@@ -1,0 +1,14 @@
+{
+  "name": "movie-nest",
+  "version": "1.0.0",
+  "description": "Discover movies by actors",
+  "main": "script.js",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "author": "",
+  "license": "ISC"
+}

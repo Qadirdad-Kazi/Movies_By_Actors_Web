@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Nest - Discover Movies by Actors</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="custom-cursor"></div>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🎬</span>
+                <span class="logo-text">Movie Nest</span>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" onclick="showHome()">Home</a>
+                <a href="#" class="nav-link" onclick="searchActors()">Search Actors</a>
+                <a href="#" class="nav-link" onclick="showWatchlist()">
+                    <span id="watchlist-count">❤️ Watchlist (0)</span>
+                </a>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+                    <span id="theme-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero-section">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source
+                src="https://assets.mixkit.co/videos/preview/mixkit-cinema-film-reel-projecting-light-41054-large.mp4"
+                type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Discover Movies by Your Favorite Actors</h1>
+            <p class="hero-subtitle">Explore filmographies of the world's most talented actors</p>
+            <div class="search-box">
+                <input type="text" id="actor-search" placeholder="Search for an actor..." autocomplete="off">
+                <button onclick="performSearch()" class="search-btn">
+                    <span>🔍</span>
+                </button>
+            </div>
+            <div id="search-suggestions" class="suggestions-dropdown"></div>
+        </div>
+    </section>
+
+    <!-- Featured Actor Section -->
+    <section class="featured-section" id="featured-section">
+        <div class="container">
+            <div class="featured-badge">⭐ FEATURED ACTORS</div>
+            <div class="featured-carousel-container">
+                <button class="carousel-nav prev" onclick="moveFeatured(-1)">❮</button>
+                <div class="featured-content" id="featured-actor">
+                    <!-- Featured actors will be loaded here -->
+                </div>
+                <button class="carousel-nav next" onclick="moveFeatured(1)">❯</button>
+            </div>
+            <div class="carousel-indicators" id="featured-indicators"></div>
+        </div>
+    </section>
+
+    <!-- Popular Actors Section -->
+    <section class="actors-section" id="home-view">
+        <div class="container">
+            <!-- Filters Section -->
+            <div class="filters-section" id="filters-section" style="margin-bottom: 3rem;">
+                <div class="filters-bar">
+                    <div class="filter-group">
+                        <label>Genre:</label>
+                        <select id="genre-filter" onchange="applyFilters()">
+                            <option value="all">All Genres</option>
+                            <option value="action">Action</option>
+                            <option value="drama">Drama</option>
+                            <option value="comedy">Comedy</option>
+                            <option value="romance">Romance</option>
+                            <option value="thriller">Thriller</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Language:</label>
+                        <select id="language-filter" onchange="applyFilters()">
+                            <option value="all">All Languages</option>
+                            <option value="hindi">Hindi</option>
+                            <option value="english">English</option>
+                            <option value="tamil">Tamil</option>
+                            <option value="telugu">Telugu</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By:</label>
+                        <select id="sort-filter" onchange="applyFilters()">
+                            <option value="popularity">Popularity</option>
+                            <option value="name">Name A-Z</option>
+                            <option value="recent">Recently Added</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">🇮🇳 Indian Cinema Stars</h2>
+            <div class="actors-grid" id="indian-actors">
+                <!-- Indian actors will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Watchlist Section -->
+    <section class="watchlist-section" id="watchlist-view" style="display: none;">
+        <div class="container">
+            <h2 class="section-title">❤️ My Watchlist</h2>
+            <div class="actors-grid" id="watchlist-actors">
+                <!-- Watchlist actors will be loaded here -->
+            </div>
+            <div id="empty-watchlist" style="display: none; text-align: center; padding: 4rem;">
+                <p style="font-size: 1.5rem; color: var(--text-secondary);">Your watchlist is empty</p>
+                <p style="color: var(--text-secondary); margin-top: 1rem;">Add actors to your watchlist by clicking the
+                    heart icon</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Actor Detail Section -->
+    <section class="actor-detail" id="actor-detail" style="display: none;">
+        <div class="actor-parallax-bg" id="actor-parallax-bg"></div>
+        <div class="container">
+            <button class="back-btn" onclick="closeActorDetail()">← Back to Home</button>
+
+            <div class="actor-info">
+                <div class="actor-poster">
+                    <img id="actor-image" src="" alt="Actor Photo">
+                    <button class="watchlist-btn" id="watchlist-btn" onclick="toggleWatchlist(currentActorId)">
+                        <span id="watchlist-icon">❤️</span>
+                        <span id="watchlist-text">Add to Watchlist</span>
+                    </button>
+                    <button class="share-btn" onclick="shareActor()">
+                        <span>🔗 Share</span>
+                    </button>
+                </div>
+                <div class="actor-details">
+                    <h1 class="actor-name" id="actor-name"></h1>
+                    <div class="social-links" id="social-links" style="display: none;">
+                        <!-- Social media links -->
+                    </div>
+                    <div class="actor-meta">
+                        <span class="meta-item" id="actor-birthday"></span>
+                        <span class="meta-item" id="actor-place"></span>
+                    </div>
+                    <div class="actor-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="known-for"></span>
+                            <span class="stat-label">Known For</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="popularity"></span>
+                            <span class="stat-label">Popularity</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value" id="total-movies">0</span>
+                            <span class="stat-label">Total Movies</span>
+                        </div>
+                    </div>
+                    <div class="actor-awards" id="actor-awards" style="display: none;">
+                        <h3>🏆 Awards & Recognition</h3>
+                        <div id="awards-list"></div>
+                    </div>
+                    <div class="actor-bio">
+                        <h3>Biography</h3>
+                        <p id="actor-biography"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-section">
+                <h2 class="section-title">📸 Photo Gallery</h2>
+                <div class="photo-gallery" id="actor-gallery">
+                    <!-- Gallery images will be loaded here -->
+                </div>
+            </div>
+
+            <div class="movies-section">
+                <h2 class="section-title">Filmography</h2>
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterMovies('all')">All</button>
+                    <button class="filter-tab" onclick="filterMovies('movie')">Movies</button>
+                    <button class="filter-tab" onclick="filterMovies('tv')">TV Shows</button>
+                    <button class="filter-tab" onclick="filterMovies('news')">📰 News</button>
+                </div>
+                <div class="movies-grid" id="actor-movies">
+                    <!-- Movies will be loaded here -->
+                </div>
+            </div>
+
+            <div class="news-section" id="news-section" style="display: none;">
+                <h2 class="section-title">📰 Latest Headlines</h2>
+                <div class="news-grid" id="actor-news">
+                    <!-- News items will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Gallery Modal -->
+    <div class="modal" id="gallery-modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeGallery()"></div>
+        <div class="gallery-content">
+            <button class="modal-close" onclick="closeGallery()">✕</button>
+            <button class="gallery-nav gallery-prev" onclick="changeGalleryImage(-1)">❮</button>
+            <img id="gallery-image" src="" alt="Gallery Image">
+            <button class="gallery-nav gallery-next" onclick="changeGalleryImage(1)">❯</button>
+            <div class="gallery-counter" id="gallery-counter"></div>
+        </div>
+    </div>
+
+    <!-- Movie Detail Modal -->
+    <div class="modal" id="movie-modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeMovieModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeMovieModal()">✕</button>
+            <div class="modal-body" id="movie-detail-content">
+                <!-- Movie details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Skeletons -->
+    <template id="actor-skeleton">
+        <div class="actor-card skeleton-card">
+            <div class="skeleton skeleton-image"></div>
+            <div class="skeleton-info">
+                <div class="skeleton skeleton-text"></div>
+                <div class="skeleton skeleton-text-small"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loading-spinner" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- PiP Container -->
+    <div id="pip-container" class="pip-container" style="display: none;">
+        <button class="pip-close" onclick="closePiP()">✕</button>
+        <iframe id="pip-iframe" src="" allowfullscreen></iframe>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

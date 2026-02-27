@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e50914;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff6b6b;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="#141414" stroke="url(#grad)" stroke-width="3"/>
+  
+  <!-- Movie reel design -->
+  <circle cx="50" cy="50" r="35" fill="none" stroke="url(#grad)" stroke-width="4"/>
+  
+  <!-- Inner circles (film holes) -->
+  <circle cx="50" cy="20" r="4" fill="url(#grad)"/>
+  <circle cx="70" cy="30" r="4" fill="url(#grad)"/>
+  <circle cx="80" cy="50" r="4" fill="url(#grad)"/>
+  <circle cx="70" cy="70" r="4" fill="url(#grad)"/>
+  <circle cx="50" cy="80" r="4" fill="url(#grad)"/>
+  <circle cx="30" cy="70" r="4" fill="url(#grad)"/>
+  <circle cx="20" cy="50" r="4" fill="url(#grad)"/>
+  <circle cx="30" cy="30" r="4" fill="url(#grad)"/>
+  
+  <!-- Center play button -->
+  <polygon points="45,40 45,60 62,50" fill="url(#grad)"/>
+</svg>
