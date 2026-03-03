@@ -18,6 +18,8 @@ const FEATURED_ACTORS = [
     'Salman Khan',
     'Ali Fazal',
     'Gurmeet Choudhary',
+    'Karan Wahi',
+    'Emraan Hashmi',
 ];
 
 // State Management
@@ -201,7 +203,9 @@ async function loadIndianActors() {
             'Rashmika Mandanna',
             'Samantha Ruth Prabhu',
             'Nayanthara',
-            'Trisha Krishnan'
+            'Trisha Krishnan',
+            'Karan Wahi',
+            'Emraan Hashmi'
         ];
 
         const actorPromises = indianActors.map(name =>
